@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OtakuStats</title>
+</head>
+<body>
+
+<h2>OtakuStats - Formulaire</h2>
+
+<input id="age" placeholder="Age"><br>
+<input id="hours" placeholder="Heures anime/semaine"><br>
+<input id="manga" placeholder="Manga/mois"><br>
+
+<select id="genre">
+<option>Action</option>
+<option>Romance</option>
+<option>Isekai</option>
+</select><br>
+
+<select id="platform">
+<option>Streaming</option>
+<option>Téléchargement</option>
+<option>TV</option>
+</select><br>
+
+<select id="engagement">
+<option>Faible</option>
+<option>Moyen</option>
+<option>Fort</option>
+</select><br>
+
+<input id="sleep" placeholder="Sommeil (h/jour)"><br>
+
+<button onclick="send()">Envoyer</button>
+
+<h3>Statistiques</h3>
+<button onclick="stats()">Voir stats</button>
+<p id="result"></p>
+
+<script>
+async function send() {
+    await fetch("http://127.0.0.1:8000/submit", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            age: parseInt(age.value),
+            hours_anime: parseFloat(hours.value),
+            mangas_per_month: parseInt(manga.value),
+            genre: genre.value,
+            platform: platform.value,
+            engagement: engagement.value,
+            sleep: parseFloat(sleep.value)
+        })
+    });
+    alert("Données envoyées");
+}
+
+async function stats() {
+    let res = await fetch("http://127.0.0.1:8000/stats");
+    let data = await res.json();
+    result.innerText = JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
