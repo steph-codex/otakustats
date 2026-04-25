@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OtakuStats</title>
+</head>
+<body>
+
+<h1>🎌 OtakuStats</h1>
+
+<h3>Formulaire Otaku</h3>
+
+<input id="age" placeholder="Âge"><br>
+<input id="hours" placeholder="Heures anime/semaine"><br>
+<input id="manga" placeholder="Mangas/mois"><br>
+
+<select id="genre">
+    <option>Action</option>
+    <option>Romance</option>
+    <option>Isekai</option>
+</select><br>
+
+<select id="platform">
+    <option>Streaming</option>
+    <option>Téléchargement</option>
+</select><br>
+
+<button onclick="send()">Envoyer</button>
+
+<h3>Résultat</h3>
+<button onclick="stats()">Voir stats</button>
+
+<pre id="result"></pre>
+
+<script>
+async function send() {
+    await fetch("/submit", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            age: parseInt(age.value),
+            hours_anime: parseFloat(hours.value),
+            mangas_per_month: parseInt(manga.value),
+            genre: genre.value,
+            platform: platform.value,
+            engagement: "moyen",
+            sleep: 7
+        })
+    });
+
+    alert("Données envoyées !");
+}
+
+async function stats() {
+    let res = await fetch("/stats");
+    let data = await res.json();
+    result.innerText = JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>
