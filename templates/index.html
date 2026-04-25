@@ -5,28 +5,35 @@
 </head>
 <body>
 
-<h1>🎌 OtakuStats</h1>
+<h2>🎌 OtakuStats - Formulaire</h2>
 
-<h3>Formulaire Otaku</h3>
-
-<input id="age" placeholder="Âge"><br>
+<input id="age" placeholder="Age"><br>
 <input id="hours" placeholder="Heures anime/semaine"><br>
-<input id="manga" placeholder="Mangas/mois"><br>
+<input id="manga" placeholder="Manga/mois"><br>
 
 <select id="genre">
-    <option>Action</option>
-    <option>Romance</option>
-    <option>Isekai</option>
+<option>Action</option>
+<option>Romance</option>
+<option>Isekai</option>
 </select><br>
 
 <select id="platform">
-    <option>Streaming</option>
-    <option>Téléchargement</option>
+<option>Streaming</option>
+<option>Téléchargement</option>
+<option>TV</option>
 </select><br>
+
+<select id="engagement">
+<option>Faible</option>
+<option>Moyen</option>
+<option>Fort</option>
+</select><br>
+
+<input id="sleep" placeholder="Sommeil (h/jour)"><br>
 
 <button onclick="send()">Envoyer</button>
 
-<h3>Résultat</h3>
+<h3>📊 Statistiques</h3>
 <button onclick="stats()">Voir stats</button>
 
 <pre id="result"></pre>
@@ -42,11 +49,10 @@ async function send() {
             mangas_per_month: parseInt(manga.value),
             genre: genre.value,
             platform: platform.value,
-            engagement: "moyen",
-            sleep: 7
+            engagement: engagement.value,
+            sleep: parseFloat(sleep.value)
         })
     });
-
     alert("Données envoyées !");
 }
 
