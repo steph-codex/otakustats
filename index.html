@@ -5,7 +5,7 @@
 </head>
 <body>
 
-<h2>OtakuStats - Formulaire</h2>
+<h2>🎌 OtakuStats - Formulaire</h2>
 
 <input id="age" placeholder="Age"><br>
 <input id="hours" placeholder="Heures anime/semaine"><br>
@@ -33,13 +33,14 @@
 
 <button onclick="send()">Envoyer</button>
 
-<h3>Statistiques</h3>
+<h3>📊 Statistiques</h3>
 <button onclick="stats()">Voir stats</button>
-<p id="result"></p>
+
+<pre id="result"></pre>
 
 <script>
 async function send() {
-    await fetch("http://127.0.0.1:8000/submit", {
+    await fetch("/submit", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -52,11 +53,11 @@ async function send() {
             sleep: parseFloat(sleep.value)
         })
     });
-    alert("Données envoyées");
+    alert("Données envoyées !");
 }
 
 async function stats() {
-    let res = await fetch("http://127.0.0.1:8000/stats");
+    let res = await fetch("/stats");
     let data = await res.json();
     result.innerText = JSON.stringify(data, null, 2);
 }
