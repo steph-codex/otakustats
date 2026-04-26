@@ -7,13 +7,14 @@ import os
 
 app = FastAPI()
 
-# dossier templates
-templates = Jinja2Templates(directory="templates")
 
-# stockage des données (en mémoire)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
+
+# stockage en mémoire
 data = []
 
-# modèle des données
+# modèle
 class Otaku(BaseModel):
     age: int
     hours_anime: float
@@ -24,19 +25,20 @@ class Otaku(BaseModel):
     sleep: float
 
 
-# page d’accueil (interface web)
-@app.get("/")
-def home():
-    return {"ok": "running"}
+#  PAGE D'ACCUEIL (INTERFACE HTML)
+@app.get("/", response_class=HTMLResponse)
+def home(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
-# envoyer des données
+
+#  ENVOI DES DONNÉES
 @app.post("/submit")
 def submit(user: Otaku):
     data.append(user.dict())
     return {"message": "Données enregistrées"}
 
 
-# statistiques
+#  STATISTIQUES
 @app.get("/stats")
 def stats():
     if len(data) == 0:
@@ -51,7 +53,7 @@ def stats():
     }
 
 
-# obligatoire pour Railway (port dynamique)
+#  LANCEMENT LOCAL (utile en dev)
 if __name__ == "__main__":
     import uvicorn
     port = int(os.environ.get("PORT", 8000))
